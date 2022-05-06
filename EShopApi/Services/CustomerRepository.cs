@@ -5,16 +5,19 @@ using System.Threading.Tasks;
 using EShopApi.Interfaces;
 using EShopApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace EShopApi.Services
 {
     public class CustomerRepository : ICustomerRepository
     {
         private EShopApi_DBContext _context;
+        private IMemoryCache _cache;
 
-        public CustomerRepository(EShopApi_DBContext context)
+        public CustomerRepository(EShopApi_DBContext context, IMemoryCache cache)
         {
             _context = context;
+            _cache = cache;
         }
 
         public IEnumerable<Customer> GetAllCustomer()
@@ -31,7 +34,18 @@ namespace EShopApi.Services
 
         public async Task<Customer> Find(int id)
         {
-            return await _context.Customers.SingleOrDefaultAsync(c => c.CustomerId == id);
+            var cache = _cache.Get<Customer>(id);
+            if (cache!=null)
+            {
+                return cache;
+            }
+            else
+            {
+             var customer=await _context.Customers.SingleOrDefaultAsync(c => c.CustomerId == id);
+                var cacheOption=new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(60));
+                _cache.Set(customer.CustomerId, customer, cacheOption);
+                return customer;
+            }
         }
 
         public async Task<Customer> Remove(int id)

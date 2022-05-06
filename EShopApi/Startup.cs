@@ -42,6 +42,10 @@ namespace EShopApi
                     "Data Source=.;Initial Catalog=EShopApi_DB;Persist Security Info=True;User ID=sa;Password=123");
             });
             services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<ISalesPersonsRepository, SalesPersonsRepository>();
+            services.AddResponseCaching();
+            services.AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +58,7 @@ namespace EShopApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EShopApi v1"));
             }
 
+            app.UseResponseCaching();
             app.UseRouting();
 
             app.UseAuthorization();
