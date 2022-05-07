@@ -5,10 +5,10 @@
 }
 
 <h2>
-    <a href="#" class="btn btn-success">Create New Customer</a>
+    <a asp-action="Create" class="btn btn-success">Create New Customer</a>
 </h2>
 <table class="table table-bordered">
-    <tr class="table-secondary text-right">
+    <tr class="table-secondary text-center">
         <th>#</th>
         <th>Name</th>
         <th>Family</th>
@@ -25,8 +25,8 @@
             <td>@item.Email</td>
             <td>@item.Phone</td>
             <td>
-                <a href="#" class="btn btn-warning">Edit</a>
-                <a href="#" class="btn btn-danger">Delete</a>
+                <a href="/Home/Edit/@item.CustomerId" class="btn btn-warning">Edit</a>
+                <a href="/Home/Delete/@item.CustomerId" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         rowCount++;

@@ -26,15 +26,35 @@ namespace WebClient.Controllers
             return View(_customer.GetAllCustomer());
         }
 
-        public IActionResult Privacy()
+        public IActionResult Create()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpPost]
+        public IActionResult Create(Customer customer)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            _customer.AddCustomer(customer);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var customer = _customer.GetCustomerById(id);
+            return View(customer);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Customer customer)
+        {
+            _customer.UpdateCustomer(customer);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            _customer.DeleteCustomer(id);
+            return RedirectToAction("Index");
         }
     }
 }

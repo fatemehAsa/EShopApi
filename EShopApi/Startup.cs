@@ -39,7 +39,7 @@ namespace EShopApi
             services.AddDbContext<EShopApi_DBContext>(options =>
             {
                 options.UseSqlServer(
-                    "Data Source=.;Initial Catalog=EShopApi_DB;Persist Security Info=True;User ID=sa;Password=123");
+                    "Data Source=192.168.12.3;Initial Catalog=EShopApi_DB;Persist Security Info=True;User ID=sa;Password=Lemon7433");
             });
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
