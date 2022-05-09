@@ -9,11 +9,14 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using EShopApi.Interfaces;
 using EShopApi.Models;
 using EShopApi.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EShopApi
 {
@@ -46,6 +49,26 @@ namespace EShopApi
             services.AddTransient<ISalesPersonsRepository, SalesPersonsRepository>();
             services.AddResponseCaching();
             services.AddMemoryCache();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = "http://localhost:38469",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ourVerifyToplearn"))
+                    };
+                }
+            );
+            services.AddCors(options =>
+            {
+                 options.AddPolicy("EnableCors", builder =>
+                 {
+                     builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().Build();
+                 });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +85,8 @@ namespace EShopApi
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseCors("EnableCors");
+            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

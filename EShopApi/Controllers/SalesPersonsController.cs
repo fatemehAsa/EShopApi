@@ -32,7 +32,7 @@ namespace EShopApi.Controllers
                 StatusCode = (int)HttpStatusCode.OK
             };
 
-            Request.HttpContext.Response.Headers.Add("X-Api","Fatemeh");
+            Request.HttpContext.Response.Headers.Add("X-Api", "Fatemeh");
             return result;
         }
 

@@ -7,12 +7,14 @@ using System.Net;
 using System.Threading.Tasks;
 using EShopApi.Interfaces;
 using EShopApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace EShopApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class CustomerController : ControllerBase
     {
         private ICustomerRepository _customerRepository;
