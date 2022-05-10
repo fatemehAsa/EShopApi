@@ -4,11 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using WebClient.Models;
 
 namespace WebClient.Controllers
 {
+
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -18,12 +22,13 @@ namespace WebClient.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _customer=new CustomerRepository();
+            _customer = new CustomerRepository();
         }
 
         public IActionResult Index()
         {
-            return View(_customer.GetAllCustomer());
+            string token = User.FindFirst("AccessToken")?.Value;
+            return View(_customer.GetAllCustomer(token));
         }
 
         public IActionResult Create()

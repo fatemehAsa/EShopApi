@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -18,8 +19,9 @@ namespace WebClient.Models
         {
             _client = new HttpClient();
         }
-        public List<Customer> GetAllCustomer()
+        public List<Customer> GetAllCustomer(string token)
         {
+            _client.DefaultRequestHeaders.Authorization=new AuthenticationHeaderValue("Bearer",token);
             var result = _client.GetStringAsync(apiUrl).Result;
             List<Customer> list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Customer>>(result);
             return list;
