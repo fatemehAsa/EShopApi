@@ -40,6 +40,11 @@ namespace EShopApi.Controllers
         }
 
 
+        /// <summary>
+        /// This is The First Comment For Swagger
+        /// </summary>
+        /// <param name="id">This Is parameter For Get Customer</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomer([FromRoute] int id)
         {

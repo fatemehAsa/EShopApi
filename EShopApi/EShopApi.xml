@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EShopApi</name>
+    </assembly>
+    <members>
+        <member name="M:EShopApi.Controllers.CustomerController.GetCustomer(System.Int32)">
+            <summary>
+            This is The First Comment For Swagger
+            </summary>
+            <param name="id">This Is parameter For Get Customer</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -8,9 +8,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.XPath;
 using EShopApi.Interfaces;
 using EShopApi.Models;
 using EShopApi.Services;
@@ -37,6 +39,7 @@ namespace EShopApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EShopApi", Version = "v1" });
+                c.IncludeXmlComments(Path.Combine(Directory.GetCurrentDirectory(), @"bin\Debug\net5.0", "EShopApi.xml"));
             });
 
             services.AddDbContext<EShopApi_DBContext>(options =>
